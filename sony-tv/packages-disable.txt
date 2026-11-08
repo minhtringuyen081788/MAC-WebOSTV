@@ -12,8 +12,9 @@ com.sony.dtv.sonyselect                      # Sony Select: gợi ý / quảng c
 com.google.android.play.games                # Google Play Games
 com.google.android.youtube.tvmusic           # YouTube Music bản TV
 com.google.android.marvin.talkback           # TalkBack: đọc màn hình cho người khiếm thị
-com.google.android.leanbacklauncher.recommendations  # Dịch vụ gợi ý nội dung (Android TV đời cũ)
+com.google.android.leanbacklauncher.recommendations  # Dịch vụ gợi ý nội dung ở màn hình chính (Android TV 5–7, ví dụ Sony 2015)
 com.android.printspooler                     # Dịch vụ in ấn, TV không dùng
+com.google.android.music                     # Google Play Music: Google đã đóng dịch vụ từ năm 2020
 
 # ---- Nhóm tuỳ chọn: xoá dấu # nếu khách ở nhà khách KHÔNG cần ----
 #com.google.android.backdrop                 # Ambient mode: hình nền khi TV rảnh

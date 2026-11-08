@@ -108,10 +108,20 @@ cmd_scan() {
   echo "== Thông tin TV =="
   echo "Model    : $(tv getprop ro.product.model)"
   echo "Android  : $(tv getprop ro.build.version.release)"
+  # Kernel cũ (TV 2015, kernel 3.10) có thể không có MemAvailable: ước lượng bằng MemFree + Cached.
   tv cat /proc/meminfo | awk '
-    /^MemTotal/     { printf "RAM tổng : %d MB\n", $2/1024 }
-    /^MemAvailable/ { printf "RAM trống: %d MB\n", $2/1024 }'
-  echo "Màn hình chính đang dùng: $(tv cmd package resolve-activity --brief -a android.intent.action.MAIN -c android.intent.category.HOME | tail -n 1)"
+    /^MemTotal:/     { total = $2 }
+    /^MemFree:/      { free = $2 }
+    /^Cached:/       { cached = $2 }
+    /^MemAvailable:/ { avail = $2 }
+    END {
+      if (avail == "") avail = free + cached
+      printf "RAM tổng : %d MB\nRAM trống: %d MB\n", total/1024, avail/1024
+    }'
+  home="$(tv cmd package resolve-activity --brief -a android.intent.action.MAIN -c android.intent.category.HOME | tail -n 1)"
+  case "$home" in */*) ;; *) home="không xác định" ;; esac
+  echo "Màn hình chính đang dùng: $home"
+  echo "Bản vá bảo mật: $(tv getprop ro.build.version.security_patch)"
   if is_installed "$TAILSCALE_PKG"; then
     echo "Tailscale: đã cài (always-on: $(tv settings get secure always_on_vpn_app))"
   else
@@ -201,6 +211,10 @@ cmd_restore() {
 cmd_vpn_always_on() {
   connect
   load_package_lists
+  sdk="$(tv getprop ro.build.version.sdk)"
+  if [ "${sdk:-0}" -lt 26 ] 2>/dev/null; then
+    die "TV chạy Android API $sdk (dưới Android 8.0), Tailscale không hỗ trợ. Xem Cách A / Cách B trong README."
+  fi
   is_installed "$TAILSCALE_PKG" || die "TV chưa cài Tailscale. Mở Google Play trên TV, cài Tailscale và đăng nhập trước."
   tv settings put secure always_on_vpn_app "$TAILSCALE_PKG" >/dev/null
   tv settings put secure always_on_vpn_lockdown 0 >/dev/null
