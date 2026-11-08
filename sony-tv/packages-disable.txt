@@ -1,0 +1,30 @@
+# Danh sách ứng dụng sẽ TẮT trên TV Sony khi chạy: ./tv-optimize.sh <IP> apply
+#
+# Cách đọc:
+#   - Dòng bắt đầu bằng tên gói (com.xxx)   -> sẽ bị tắt
+#   - Dòng bắt đầu bằng dấu #               -> bỏ qua (muốn tắt thì xoá dấu # đầu dòng)
+#
+# "Tắt" = disable cho người dùng chính, KHÔNG xoá khỏi máy. Chạy "restore" là bật lại hết.
+# Gói nào không có trên TV thì script tự bỏ qua, không sao cả.
+
+# ---- Nhóm an toàn: hầu như không ai dùng trên TV nhà khách (mặc định TẮT) ----
+com.sony.dtv.sonyselect                      # Sony Select: gợi ý / quảng cáo ứng dụng của Sony
+com.google.android.play.games                # Google Play Games
+com.google.android.youtube.tvmusic           # YouTube Music bản TV
+com.google.android.marvin.talkback           # TalkBack: đọc màn hình cho người khiếm thị
+com.google.android.leanbacklauncher.recommendations  # Dịch vụ gợi ý nội dung (Android TV đời cũ)
+com.android.printspooler                     # Dịch vụ in ấn, TV không dùng
+
+# ---- Nhóm tuỳ chọn: xoá dấu # nếu khách ở nhà khách KHÔNG cần ----
+#com.google.android.backdrop                 # Ambient mode: hình nền khi TV rảnh
+#com.google.android.videos                   # Google TV / Play Phim (cửa hàng phim)
+#com.netflix.ninja                           # Netflix
+#com.amazon.amazonvideo.livingroom           # Prime Video
+#com.spotify.tv.android                      # Spotify
+#com.google.android.youtube.tvkids           # YouTube Kids
+#com.google.android.apps.mediashell          # Chromecast built-in (giữ lại nếu khách hay cast từ điện thoại)
+#com.google.android.katniss                  # Tìm kiếm bằng giọng nói (tắt thì nút micro trên remote không dùng được)
+
+# ---- Gói riêng của Sony ----
+# Chạy "./tv-optimize.sh <IP> scan" để xem toàn bộ gói com.sony.* trên TV của mình,
+# rồi thêm vào đây những gói chắc chắn không dùng. KHÔNG thêm com.sony.dtv.tvx (ứng dụng xem truyền hình).
